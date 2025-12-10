@@ -8,10 +8,14 @@ import { Picture } from "astro:assets";
 const carrosel = [Foto, Foto1, Foto2, Foto3];
 ---
 
-<div class="carousel">
+<div class="carousel relative w-full" id="carousel-fotos">
   {
     carrosel.map((foto, index) => (
-      <div id={"foto" + index} class="carousel-item relative w-full">
+      <div 
+        id={"foto" + index} 
+        class="carousel-item relative w-full"
+        data-carousel-item={index}
+      >
         <Picture
           src={foto}
           loading={index === 0 ? "eager" : "lazy"}
@@ -20,26 +24,154 @@ const carrosel = [Foto, Foto1, Foto2, Foto3];
           layout="constrained"
         />
         <div class="absolute top-1/2 right-5 left-5 flex -translate-y-1/2 transform justify-between">
-          <a
-            href={
-              index === 0
-                ? "#foto" + (carrosel.length - 1)
-                : "#foto" + (index - 1)
-            }
-            class="btn btn-circle"
+          <button
+            type="button"
+            class="btn btn-circle carousel-prev"
+            data-carousel-action="prev"
+            aria-label="Foto anterior"
           >
             ❮
-          </a>
-          <a
-            href={
-              index === carrosel.length - 1 ? "#foto0" : "#foto" + (index + 1)
-            }
-            class="btn btn-circle"
+          </button>
+          <button
+            type="button"
+            class="btn btn-circle carousel-next"
+            data-carousel-action="next"
+            aria-label="Próxima foto"
           >
             ❯
-          </a>
+          </button>
         </div>
       </div>
     ))
   }
 </div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.getElementById('carousel-fotos');
+    if (!carousel) return;
+
+    const items = carousel.querySelectorAll('[data-carousel-item]');
+    const totalItems = items.length;
+    if (totalItems === 0) return;
+
+    let currentIndex = 0;
+    let autoplayInterval = null;
+    const autoplayDelay = 5000; // 5 segundos
+
+    // Função para calcular a posição do scroll baseado no índice
+    function getScrollPosition(index) {
+      if (items[index]) {
+        var item = items[index];
+        return item.offsetLeft;
+      }
+      return 0;
+    }
+
+    // Função para mostrar uma foto específica sem afetar o scroll da página
+    function showSlide(index) {
+      // Garantir que o índice está dentro dos limites
+      if (index < 0) {
+        currentIndex = totalItems - 1;
+      } else if (index >= totalItems) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+
+      // Scroll apenas no container do carrossel, não na página
+      if (carousel) {
+        const scrollPosition = getScrollPosition(currentIndex);
+        carousel.scrollTo({
+          left: scrollPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Função para próxima foto
+    function nextSlide() {
+      showSlide(currentIndex + 1);
+    }
+
+    // Função para foto anterior
+    function prevSlide() {
+      showSlide(currentIndex - 1);
+    }
+
+    // Iniciar autoplay
+    function startAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+      }
+      autoplayInterval = setInterval(nextSlide, autoplayDelay);
+    }
+
+    // Parar autoplay
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    // Event listeners para os botões
+    const prevButtons = carousel.querySelectorAll('[data-carousel-action="prev"]');
+    const nextButtons = carousel.querySelectorAll('[data-carousel-action="next"]');
+
+    prevButtons.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        stopAutoplay();
+        prevSlide();
+        startAutoplay();
+      });
+    });
+
+    nextButtons.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        stopAutoplay();
+        nextSlide();
+        startAutoplay();
+      });
+    });
+
+    // Pausar autoplay quando o usuário passar o mouse sobre o carrossel
+    carousel.addEventListener('mouseenter', stopAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+
+    // Detectar mudanças de slide quando o usuário usar scroll manual
+    let isScrolling = false;
+    carousel.addEventListener('scroll', function() {
+      if (isScrolling) return;
+      
+      // Encontrar qual item está mais visível
+      let maxVisible = 0;
+      let maxRatio = 0;
+      
+      items.forEach(function(item, index) {
+        const rect = item.getBoundingClientRect();
+        const carouselRect = carousel.getBoundingClientRect();
+        
+        // Calcular quanto do item está visível dentro do carrossel
+        const visibleLeft = Math.max(rect.left, carouselRect.left);
+        const visibleRight = Math.min(rect.right, carouselRect.right);
+        const visibleWidth = Math.max(0, visibleRight - visibleLeft);
+        const ratio = visibleWidth / rect.width;
+        
+        if (ratio > maxRatio) {
+          maxRatio = ratio;
+          maxVisible = index;
+        }
+      });
+      
+      if (maxRatio > 0.5) {
+        currentIndex = maxVisible;
+      }
+    });
+
+    // Iniciar autoplay
+    startAutoplay();
+  });
+</script>

@@ -2,9 +2,88 @@
 import Logo from "@/components/Logo.astro";
 ---
 
-<header class="my-5 flex max-w-7xl items-center px-5 lg:px-0">
-  <Logo />
-  <h1 class="ml-5 text-xl font-extrabold lg:text-3xl">
-    Escola de Jiu-Jitsu Azambuja-Behring
-  </h1>
+<header class="sticky top-0 z-50 w-full bg-base-100 shadow-lg">
+  <div class="navbar max-w-full px-5 lg:px-10">
+    <!-- Logo e título -->
+    <div class="navbar-start">
+      <div class="flex items-center gap-3">
+        <Logo />
+        <div class="flex flex-col text-primary leading-tight">
+          <span class="font-bold text-xs sm:text-sm">Escola de Jiu-Jitsu</span>
+          <span class="font-bold text-base sm:text-lg">Azambuja-Behring</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu centralizado (desktop) -->
+    <div class="navbar-center">
+      <nav class="hidden md:flex items-center justify-center space-x-4">
+        <a href="/" class="btn btn-ghost text-base uppercase font-semibold">HOME</a>
+        <a href="/rafael-azambuja" class="btn btn-ghost text-base uppercase font-semibold">RAFAEL AZAMBUJA</a>            
+        <a href="/didatica" class="btn btn-ghost text-base uppercase font-semibold">A DIDÁTICA</a>
+        <a href="/faixa-preta" class="btn btn-ghost text-base uppercase font-semibold">FAIXAS PRETAS</a>
+        <a href="/horarios" class="btn btn-ghost text-base uppercase font-semibold">HORÁRIOS</a>
+        <a href="/filiais" class="btn btn-ghost text-base uppercase font-semibold">FILIAIS</a>
+        <a href="/contato" class="btn btn-ghost text-base uppercase font-semibold">CONTATO</a>
+      </nav>
+    </div>
+
+    <!-- CTA + Mobile -->
+    <div class="navbar-end flex items-center gap-2">
+      <div class="hidden md:flex">
+        <a
+          id="botao-agendamento-header"
+          role="button"
+          href="https://api.whatsapp.com/send/?phone=5551980267688&text=Ol%C3%A1%2C%20gostaria%20de%20marcar%20minha%20%20experimental%20grautuita&type=phone_number&app_absent=0"
+          target="_blank"
+          data-umami-event="botao-agendamento-header"
+          class="btn btn-primary"
+        >
+          Marque sua aula experimental
+        </a>
+      </div>
+
+      <div class="md:hidden">
+        <div class="dropdown dropdown-end">
+          <button tabindex="0" class="btn btn-ghost btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </button>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="/" class="text-base uppercase">Home</a></li>
+            <li><a href="/rafael-azambuja" class="text-base uppercase">Rafael Azambuja</a></li>
+            <li><a href="/didatica" class="text-base uppercase">A Didática</a></li>
+            <li><a href="/faixa-preta" class="text-base uppercase">Faixas Pretas</a></li>
+            <li><a href="/horarios" class="text-base uppercase">Horários</a></li>
+            <li><a href="/filiais" class="text-base uppercase">Filiais</a></li>
+            <li><a href="/contato" class="text-base uppercase">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
+
+<!-- Modal para marcar aula (fallback) -->
+<dialog id="marque-aula-modal" class="modal">
+  <div class="modal-box w-11/12 max-w-md">
+    <h3 class="text-lg font-bold">Marque sua aula experimental</h3>
+    <p class="py-4">Entre em contato conosco para agendar sua aula experimental!</p>
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn">Fechar</button>
+      </form>
+      <a
+        href="https://api.whatsapp.com/send/?phone=5551980267688&text=Ol%C3%A1%2C%20gostaria%20de%20marcar%20minha%20%20experimental%20grautuita&type=phone_number&app_absent=0"
+        target="_blank"
+        class="btn btn-primary"
+      >
+        Ir para o WhatsApp
+      </a>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>Fechar</button>
+  </form>
+</dialog>
