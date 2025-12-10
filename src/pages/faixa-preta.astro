@@ -1,0 +1,154 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { Image } from "astro:assets";
+
+// Importar todas as fotos das faixas pretas
+import foto01 from "@/assets/Faixas Pretas/01. Grabiel Azambuja.jpg";
+import foto02 from "@/assets/Faixas Pretas/02. Delcia Enricone.jpg";
+import foto03 from "@/assets/Faixas Pretas/03. Roberto Wosiack.jpg";
+import foto04 from "@/assets/Faixas Pretas/04. Brandon Hoffman.jpg";
+import foto05 from "@/assets/Faixas Pretas/05. Ramiro Barcos.jpg";
+import foto06 from "@/assets/Faixas Pretas/06. Bruno Konzen.jpg";
+import foto07 from "@/assets/Faixas Pretas/07. Nenguirú Martins.jpg";
+import foto08 from "@/assets/Faixas Pretas/08. Pedro Palermo.jpg";
+import foto09 from "@/assets/Faixas Pretas/09. Henrique Aramburu.jpg";
+import foto10 from "@/assets/Faixas Pretas/10. Carlos Wainberg.jpg";
+import foto11 from "@/assets/Faixas Pretas/11. Josué Antunes.jpg";
+import foto12 from "@/assets/Faixas Pretas/12. Raphael Moraes.jpg";
+import foto13 from "@/assets/Faixas Pretas/13. Leonardo Antoria.jpg";
+import foto14 from "@/assets/Faixas Pretas/14. Bruno Rosa.png";
+import foto15 from "@/assets/Faixas Pretas/15. Guilherme Rodrigues.jpg";
+import foto16 from "@/assets/Faixas Pretas/16. Crisciele Santos.jpg";
+import foto17 from "@/assets/Faixas Pretas/17. Sergio Freiberg.jpg";
+import foto18 from "@/assets/Faixas Pretas/18. Edson Quagliotto.jpg";
+import foto19 from "@/assets/Faixas Pretas/19. Guilherme Entrudo.jpg";
+import foto20 from "@/assets/Faixas Pretas/20. Leonardo Rocha.jpg";
+import foto21 from "@/assets/Faixas Pretas/21. Adryan Carvalho.jpg";
+import foto22 from "@/assets/Faixas Pretas/22. Diego Dias.jpg";
+
+// Mapeamento de fotos por sequência
+const fotosMap: Record<number, typeof foto01 | null> = {
+  1: foto01,
+  2: foto02,
+  3: foto03,
+  4: foto04,
+  5: foto05,
+  6: foto06,
+  7: foto07,
+  8: foto08,
+  9: foto09,
+  10: foto10,
+  11: foto11,
+  12: foto12,
+  13: foto13,
+  14: foto14, // Bruno Rosa
+  15: foto15, // Guilherme Rodrigues
+  16: foto16, // Crisciele Santos
+  17: foto17, // Sergio Freiberg
+  18: foto18, // Edson Quagliotto
+  19: foto19, // Guilherme Entrudo
+  20: foto20, // Leonardo Rocha
+  21: foto21, // Adryan Carvalho
+  22: foto22, // Diego Dias
+};
+
+// Dados dos faixas pretas formados
+const faixasPretas = [
+  { sequencia: 1, nome: "Gabriel Azambuja", dataFormacao: "16/05/2009", foto: fotosMap[1] },
+  { sequencia: 2, nome: "Delcia Enricone", dataFormacao: "07/05/2011", foto: fotosMap[2], feminino: true },
+  { sequencia: 3, nome: "Roberto Wosiack", dataFormacao: "18/11/2011", foto: fotosMap[3] },
+  { sequencia: 4, nome: "Brandon Hoffman", dataFormacao: "25/11/2013", foto: fotosMap[4] },
+  { sequencia: 5, nome: "Ramiro Barcos", dataFormacao: "08/03/2018", foto: fotosMap[5] },
+  { sequencia: 6, nome: "Bruno Konzen", dataFormacao: "08/03/2018", foto: fotosMap[6] },
+  { sequencia: 7, nome: "Nenguirú Martins", dataFormacao: "08/03/2018", foto: fotosMap[7] },
+  { sequencia: 8, nome: "Pedro Palermo", dataFormacao: "08/03/2018", foto: fotosMap[8] },
+  { sequencia: 9, nome: "Henrique Aramburu", dataFormacao: "08/03/2018", foto: fotosMap[9] },
+  { sequencia: 10, nome: "Carlos Wainberg", dataFormacao: "19/03/2019", foto: fotosMap[10] },
+  { sequencia: 11, nome: "Josué Antunes", dataFormacao: "08/12/2021", foto: fotosMap[11] },
+  { sequencia: 12, nome: "Raphael Moraes", dataFormacao: "08/12/2021", foto: fotosMap[12] },
+  { sequencia: 13, nome: "Leonardo Antoria", dataFormacao: "12/12/2022", foto: fotosMap[13] },
+  { sequencia: 14, nome: "Bruno Rosa", dataFormacao: "25/07/2023", foto: fotosMap[14] },
+  { sequencia: 15, nome: "Guilherme Rodrigues", dataFormacao: "17/11/2023", foto: fotosMap[15] },
+  { sequencia: 16, nome: "Crisciele Santos", dataFormacao: "22/01/2024", foto: fotosMap[16], feminino: true },
+  { sequencia: 17, nome: "Sergio Freiberg", dataFormacao: "27/07/2024", foto: fotosMap[17] },
+  { sequencia: 18, nome: "Edson Quagliotto", dataFormacao: "07/12/2024", foto: fotosMap[18] },
+  { sequencia: 19, nome: "Guilherme Entrudo", dataFormacao: "07/12/2024", foto: fotosMap[19] },
+  { sequencia: 20, nome: "Leonardo Rocha", dataFormacao: "07/12/2024", foto: fotosMap[20] },
+  { sequencia: 21, nome: "Adryan Carvalho", dataFormacao: "07/12/2024", foto: fotosMap[21] },
+  { sequencia: 22, nome: "Diego Dias", dataFormacao: "30/11/2025", foto: fotosMap[22] },
+];
+---
+
+<Layout>
+  <div class="flex min-h-svh w-full flex-col items-center justify-center">
+    <Header />
+    <main class="flex w-full flex-col items-center py-12">
+      <div class="w-full max-w-6xl px-6 xl:w-4/6">
+        <!-- <h1 class="mb-8 text-4xl font-bold text-primary">Faixas Pretas Formados</h1> -->
+        <div class="prose prose-lg max-w-none mb-8">
+          <p class="text-lg leading-relaxed">
+            A Escola de Jiu-Jitsu Azambuja-Behring tem o orgulho de ter formado {faixasPretas.length} faixas pretas 
+            desde sua fundação em 2007. Cada um desses graduados representa a dedicação, 
+            disciplina e excelência no ensino do Jiu-Jitsu que caracteriza nossa escola.
+          </p>
+          <p class="text-lg leading-relaxed">
+            Faixas pretas formados seguem os princípios do Sistema Progressivo de Jiu-Jitsu, 
+            desenvolvido pelo Mestre Sylvio Behring, e muitos deles continuam sua jornada 
+            como instrutores, compartilhando conhecimento e formando novos praticantes da arte suave.
+          </p>
+          <p class="text-lg leading-relaxed">
+            A formação de faixas pretas na Escola Azambuja-Behring não é apenas sobre técnica, 
+            mas também sobre desenvolvimento de caráter, liderança e compromisso com a arte do Jiu-Jitsu.
+          </p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="mb-6 text-2xl font-semibold">Faixas Pretas Formados</h2>
+          <div class="bg-base-100 border-base-300 border rounded-lg p-6">
+            <div class="flex justify-center">
+              <ul class="timeline timeline-vertical max-w-2xl w-full">
+              {
+                faixasPretas.map((faixa, index) => (
+                  <li class="py-2">
+                    {index > 0 && <hr class="my-2" />}
+                    <div class="timeline-start">
+                      <div class="text-base font-bold text-primary">#{faixa.sequencia}</div>
+                    </div>
+                    <div class="timeline-middle">
+                      <div class="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20 overflow-hidden">
+                        {faixa.foto ? (
+                          <Image
+                            src={faixa.foto}
+                            alt={`Foto de ${faixa.nome}`}
+                            width={128}
+                            height={128}
+                            class="w-32 h-32 rounded-full object-cover"
+                            loading={index < 5 ? "eager" : "lazy"}
+                          />
+                        ) : (
+                          <div class="text-5xl">👤</div>
+                        )}
+                      </div>
+                    </div>
+                    <div class="timeline-end timeline-box">
+                      <div class="font-semibold text-lg mb-1">{faixa.nome}</div>
+                      <div class="text-sm opacity-70">
+                        {faixa.feminino ? "Formada em " : "Formado em "}
+                        {faixa.dataFormacao}
+                      </div>
+                    </div>
+                    {index < faixasPretas.length - 1 && <hr class="my-2" />}
+                  </li>
+                ))
+              }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>
